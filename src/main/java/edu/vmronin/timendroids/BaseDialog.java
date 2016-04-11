@@ -12,15 +12,15 @@ public class BaseDialog extends DialogFragment {
 
 //	Comentario de prueba
 
-	public static AlertDialog.Builder getThemedAlertBuilder(Context context, Bundle extras){
+	public static AlertDialog.Builder getThemedAlertBuilder(Context context, Bundle extras) {
 
 		int theme = 0;
 
-		if (extras != null){
+		if (extras != null) {
 			theme = extras.getInt(TimePickerDialog.THEME_RES);
 		}
 
-		if (theme == 0){
+		if (theme == 0) {
 			new AlertDialog.Builder(context);
 		}
 

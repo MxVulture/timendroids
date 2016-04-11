@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Time N\' Droids</string>
-    <string name="timepicker_def_title">Pick a date</string>
+    <string name="timendroids_title_date">Selecciona la fecha</string>
+    <string name="timendroids_title_time">Selecciona la hora</string>
+    <string name="timendroids_next">Siguiente</string>
+    <string name="timendroids_cancel">Cancelar</string>
+    <string name="timendroids_back">Volver</string>
+    <string name="timendroids_done">Continuar</string>
 </resources>
