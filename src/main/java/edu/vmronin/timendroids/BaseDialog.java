@@ -10,8 +10,6 @@ import android.support.v7.app.AlertDialog;
  */
 public class BaseDialog extends DialogFragment {
 
-//	Comentario de prueba
-
 	public static AlertDialog.Builder getThemedAlertBuilder(Context context, Bundle extras) {
 
 		int theme = 0;

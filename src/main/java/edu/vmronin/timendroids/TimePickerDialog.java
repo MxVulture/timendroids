@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -26,7 +27,21 @@ import java.util.Date;
 
 public class TimePickerDialog extends BaseDialog implements DialogInterface.OnClickListener {
 
-	public static ITimePickerListener NO_OP_LISTENER = new ITimePickerListener() {
+	@Override
+	public void onCancel(DialogInterface dialog) {
+
+		ITimePickerListener listenerer = this.listener.get();
+
+		if (listenerer != null) {
+			listenerer.onCancel();
+		}
+
+		super.onCancel(dialog);
+
+
+	}
+
+	public static final ITimePickerListener NO_OP_LISTENER = new ITimePickerListener() {
 		@Override
 		public void onDateTimeSelected(Date date) {
 			System.out.println(date);
@@ -151,7 +166,7 @@ public class TimePickerDialog extends BaseDialog implements DialogInterface.OnCl
 
 	}
 
-	interface ITimePickerListener {
+	public interface ITimePickerListener {
 		void onDateTimeSelected(Date date);
 
 		void onCancel();
@@ -173,6 +188,11 @@ public class TimePickerDialog extends BaseDialog implements DialogInterface.OnCl
 	private DatePicker datePicker;
 	private ViewSwitcher viewSwitcher;
 	private WeakReference<ITimePickerListener> listener;
+
+
+	public TimePickerDialog() {
+		listener = new WeakReference<>(null);
+	}
 
 	public static TimePickerDialog newInstance(Bundle args, ITimePickerListener listener) {
 		TimePickerDialog pirate = new TimePickerDialog();
@@ -240,6 +260,10 @@ public class TimePickerDialog extends BaseDialog implements DialogInterface.OnCl
 		timePicker = (TimePicker) baseView.findViewById(R.id.timePicker);
 		datePicker = (DatePicker) baseView.findViewById(R.id.datePicker);
 
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP && Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			datePicker.setCalendarViewShown(false);
+		}
+
 		int inAnim, outAnim;
 
 		inAnim = args.getInt(IN_ANIMATION);
@@ -262,8 +286,11 @@ public class TimePickerDialog extends BaseDialog implements DialogInterface.OnCl
 
 		builder.setPositiveButton(next, this);
 		builder.setNegativeButton(cancel, this);
+		builder.setOnCancelListener(this);
 
-		return builder.create();
+		AlertDialog dialog = builder.create();
+
+		return dialog;
 	}
 
 
